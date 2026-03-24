@@ -11,12 +11,14 @@ import {
 import { useFocusEffect } from '@react-navigation/native';
 import DataService from '../services/DataService';
 import { Transaction, TransactionSummary } from '../types';
+import { useAuth } from '../context/AuthContext';
 
 interface HomeScreenProps {
   navigation: any;
 }
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+  const { user, logout } = useAuth();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [summary, setSummary] = useState<TransactionSummary>({
     income: 0,
@@ -56,6 +58,24 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     return new Date(date).toLocaleDateString('vi-VN');
   };
 
+  const handleLogout = () => {
+    Alert.alert(
+      'Đăng xuất',
+      'Bạn có chắc chắn muốn đăng xuất?',
+      [
+        {
+          text: 'Hủy',
+          style: 'cancel',
+        },
+        {
+          text: 'Đăng xuất',
+          onPress: logout,
+          style: 'destructive',
+        },
+      ]
+    );
+  };
+
   const deleteTransaction = (id: string) => {
     Alert.alert(
       'Xác nhận',
@@ -86,6 +106,18 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <View style={styles.userInfo}>
+          <Text style={styles.welcomeText}>Xin chào, {user?.name}!</Text>
+        </View>
+        <TouchableOpacity 
+          style={styles.profileButton}
+          onPress={() => navigation.navigate('Profile')}
+        >
+          <Text style={styles.profileButtonText}>Hồ sơ</Text>
+        </TouchableOpacity>
+      </View>
+      
       <View style={styles.summaryContainer}>
         <View style={styles.summaryCard}>
           <Text style={styles.summaryTitle}>Tổng quan</Text>
@@ -195,6 +227,33 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    backgroundColor: '#2196F3',
+  },
+  userInfo: {
+    flex: 1,
+  },
+  welcomeText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#fff',
+  },
+  profileButton: {
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 6,
+  },
+  profileButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
   },
   summaryContainer: {
     padding: 16,
