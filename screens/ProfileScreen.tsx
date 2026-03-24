@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { useAuth } from '../context/AuthContext';
 
-const ProfileScreen: React.FC = () => {
+const ProfileScreen: React.FC = ({ navigation }: any) => {
   const { user, logout, updateUser } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
 
@@ -31,9 +31,16 @@ const ProfileScreen: React.FC = () => {
     );
   };
 
-  const handleUpdateProfile = async () => {
-    // In a real app, this would open an edit modal or navigate to edit screen
-    Alert.alert('Thông báo', 'Chức năng chỉnh sửa sẽ được cập nhật sau');
+  const handleUpdateProfile = () => {
+    navigation.navigate('EditProfile');
+  };
+
+  const handleChangePassword = () => {
+    navigation.navigate('ChangePassword');
+  };
+
+  const handleAccountSettings = () => {
+    navigation.navigate('AccountSettings');
   };
 
   if (!user) {
@@ -68,8 +75,13 @@ const ProfileScreen: React.FC = () => {
         </View>
         
         <View style={styles.infoItem}>
-          <Text style={styles.infoLabel}>ID người dùng</Text>
-          <Text style={styles.infoValue}>{user.id}</Text>
+          <Text style={styles.infoLabel}>Số điện thoại</Text>
+          <Text style={styles.infoValue}>{user.phone || 'Chưa cập nhật'}</Text>
+        </View>
+        
+        <View style={styles.infoItem}>
+          <Text style={styles.infoLabel}>Địa chỉ</Text>
+          <Text style={styles.infoValue}>{user.address || 'Chưa cập nhật'}</Text>
         </View>
         
         <View style={styles.infoItem}>
@@ -86,6 +98,20 @@ const ProfileScreen: React.FC = () => {
           onPress={handleUpdateProfile}
         >
           <Text style={styles.actionButtonText}>Chỉnh sửa thông tin</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity
+          style={styles.actionButton}
+          onPress={handleChangePassword}
+        >
+          <Text style={styles.actionButtonText}>Đổi mật khẩu</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity
+          style={styles.actionButton}
+          onPress={handleAccountSettings}
+        >
+          <Text style={styles.actionButtonText}>Cài đặt tài khoản</Text>
         </TouchableOpacity>
         
         <TouchableOpacity

@@ -7,6 +7,9 @@ import HomeScreen from '../screens/HomeScreen';
 import AddEditTransactionScreen from '../screens/AddEditTransactionScreen';
 import TransactionHistoryScreen from '../screens/TransactionHistoryScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import EditProfileScreen from '../screens/EditProfileScreen';
+import ChangePasswordScreen from '../screens/ChangePasswordScreen';
+import AccountSettingsScreen from '../screens/AccountSettingsScreen';
 
 type RootStackParamList = {
   Auth: undefined;
@@ -15,6 +18,9 @@ type RootStackParamList = {
   EditTransaction: { id: string };
   TransactionHistory: undefined;
   Profile: undefined;
+  EditProfile: undefined;
+  ChangePassword: undefined;
+  AccountSettings: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -75,6 +81,21 @@ const AppNavigator = () => {
               name="Profile"
               component={ProfileScreen}
               options={{ title: 'Hồ sơ cá nhân' }}
+            />
+            <Stack.Screen
+              name="EditProfile"
+              component={EditProfileScreen}
+              options={{ title: 'Chỉnh sửa thông tin' }}
+            />
+            <Stack.Screen
+              name="ChangePassword"
+              component={ChangePasswordScreen}
+              options={{ title: 'Đổi mật khẩu' }}
+            />
+            <Stack.Screen
+              name="AccountSettings"
+              component={AccountSettingsScreen}
+              options={{ title: 'Cài đặt tài khoản' }}
             />
           </>
         )}
